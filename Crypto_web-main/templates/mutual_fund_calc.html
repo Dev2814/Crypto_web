@@ -1,0 +1,132 @@
+{% extends "layout.html" %} {% block title %} Mutual Fund Calculator {% endblock
+%} {% block main %}
+<div
+  class="calculator-container mx-auto p-5 bg-light rounded shadow"
+  style="max-width: 600px"
+>
+  <h1 class="mb-4 text-center" style="color: black">Mutual Fund Calculator</h1>
+  <form id="mutualFundForm">
+    <div class="form-group mb-3">
+      <label for="budget" class="form-label" style="color: gray"
+        >Investment Amount (₹):</label
+      >
+      <input
+        type="number"
+        id="budget"
+        name="budget"
+        class="form-control"
+        placeholder="Enter your investment amount"
+        required
+        style="background-color: #ffffff; color: #333333"
+      />
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="duration" class="form-label" style="color: gray"
+        >Investment Duration (Years):</label
+      >
+      <input
+        type="number"
+        id="duration"
+        name="duration"
+        class="form-control"
+        placeholder="Enter the number of years"
+        required
+        style="background-color: #ffffff; color: #333333"
+      />
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="returnRate" class="form-label" style="color: gray"
+        >Expected Annual Return Rate (%):</label
+      >
+      <input
+        type="number"
+        id="returnRate"
+        name="returnRate"
+        class="form-control"
+        placeholder="Enter expected return rate"
+        required
+        style="background-color: #ffffff; color: #333333"
+      />
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="tax" class="form-label" style="color: gray"
+        >Tax Percentage on Gains (%):</label
+      >
+      <input
+        type="number"
+        id="tax"
+        name="tax"
+        class="form-control"
+        placeholder="Enter tax rate on gains"
+        required
+        style="background-color: #ffffff; color: #333333"
+      />
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="type" class="form-label" style="color: gray"
+        >Investment Type:</label
+      >
+      <select
+        id="type"
+        name="type"
+        class="form-select"
+        required
+        style="background-color: #ffffff; color: #333333"
+      >
+        <option value="short-term">Short-Term</option>
+        <option value="long-term">Long-Term</option>
+      </select>
+    </div>
+
+    <button
+      type="button"
+      class="btn btn-success w-100"
+      onclick="calculateReturns()"
+      style="background-color: #28a745; color: #ffffff"
+    >
+      Calculate
+    </button>
+  </form>
+
+  <div id="result" class="result mt-4" style="display: none; color: #ffffff">
+    <h3 style="color: black">Estimated Returns</h3>
+    <p style="color: gray">
+      Total Investment: ₹<span id="totalInvestment"></span>
+    </p>
+    <p style="color: gray">
+      Estimated Returns Before Tax: ₹<span id="beforeTax"></span>
+    </p>
+    <p style="color: gray">Tax on Gains: ₹<span id="taxAmount"></span></p>
+    <p style="color: gray">
+      Final Returns After Tax: ₹<span id="afterTax"></span>
+    </p>
+  </div>
+</div>
+
+<script>
+  function calculateReturns() {
+    const budget = parseFloat(document.getElementById("budget").value);
+    const duration = parseFloat(document.getElementById("duration").value);
+    const returnRate =
+      parseFloat(document.getElementById("returnRate").value) / 100;
+    const taxRate = parseFloat(document.getElementById("tax").value) / 100;
+    const type = document.getElementById("type").value;
+
+    const totalBeforeTax = budget * Math.pow(1 + returnRate, duration);
+    const gains = totalBeforeTax - budget;
+    const taxOnGains = gains * taxRate;
+    const finalAmount = totalBeforeTax - taxOnGains;
+
+    document.getElementById("totalInvestment").innerText = budget.toFixed(2);
+    document.getElementById("beforeTax").innerText = totalBeforeTax.toFixed(2);
+    document.getElementById("taxAmount").innerText = taxOnGains.toFixed(2);
+    document.getElementById("afterTax").innerText = finalAmount.toFixed(2);
+
+    document.getElementById("result").style.display = "block";
+  }
+</script>
+{% endblock %}
