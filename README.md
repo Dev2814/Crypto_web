@@ -2,8 +2,6 @@
 
 # Invest Control Crypto Website
 
-![Invest Control Logo](link-to-logo.png) <!-- Add your project logo here -->
-
 ## Table of Contents
 - [Project Overview](#project-overview)
 - [Features](#features)
